@@ -115,8 +115,10 @@ A linear inversion would collapse the first three onto each other and flatten
 the page's visual hierarchy, which is exactly how most dark-mode extensions make
 sites hard to read.
 
-**`passthrough`** — If the page is already dark, the engine removes its
-generated sheets and keeps only `color-scheme: dark`, scrollbar styling, and any
+**`passthrough`** — If the page is already dark, or has switched itself to its
+own dark theme (`data-theme`, `data-bs-theme`, `data-color-mode` or
+`data-color-scheme` set to `dark` on `<html>` or `<body>`, watched for changes
+after load), the engine removes its generated sheets and keeps only `color-scheme: dark`, scrollbar styling, and any
 media/motion preferences. No double-darkening.
 
 Detection measures the page as the *site* styles it: our stylesheets are

@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Declared dark</title>
+<style>
+  body { background:#f4efe4; color:#242528; font:15px/1.5 system-ui,sans-serif; margin:0; padding:24px; }
+  body[data-theme="dark"] { color:#b0b7bd; }
+  .panel { position:relative; width:320px; padding:18px 22px; margin:14px 0; }
+  .panel svg { position:absolute; inset:0; width:100%; height:100%; z-index:-1; }
+  .muted { opacity:.75; }
+</style>
+</head>
+<body>
+  <h1>A light page that switches itself dark</h1>
+  <p class="muted">Like D&amp;D Beyond's character sheet: a light backdrop, dark translucent
+    SVG panels, and <code>data-theme="dark"</code> set on &lt;body&gt; after load.
+    Nocturne should stand back once the attribute appears, not turn the panels light.</p>
+  <div class="panel">
+    <svg viewBox="0 0 100 40" preserveAspectRatio="none"><rect width="100" height="40" fill="#10161ADB" stroke="#C53131"/></svg>
+    <strong>Panel</strong> — text should stay light on a dark panel.
+  </div>
+  <script>
+    setTimeout(() => { document.body.dataset.theme = 'dark'; }, 800);
+  </script>
+</body></html>
