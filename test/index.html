@@ -1,0 +1,66 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Nocturne test</title>
+<style>
+  :root { --surface: #ffffff; --line: #dadce0; --muted: #5f6368; }
+  body { background: #ffffff; color: #202124; font: 15px/1.5 system-ui, sans-serif; margin: 0; padding: 24px; }
+  h1 { color: #111; font-size: 22px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; margin: 14px 0; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  .tinted { background: #f1f3f4; }
+  .brand { background: #1a73e8; color: #fff; padding: 10px 14px; border-radius: 6px; display: inline-block; }
+  .grad { background-image: linear-gradient(to right, #ffffff, #e8eaed); padding: 14px; border-radius: 6px; }
+  a { color: #1a0dab; }
+  .muted { color: var(--muted); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #dadce0; padding: 6px 9px; text-align: left; }
+  th { background: #f8f9fa; }
+  input, select, textarea { padding: 6px 8px; border: 1px solid #dadce0; border-radius: 4px; font: inherit; }
+  button { padding: 7px 14px; border: 1px solid #dadce0; background: #f8f9fa; border-radius: 4px; font: inherit; }
+  .swatch { width: 60px; height: 40px; display: inline-block; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+  <h1>Nocturne rendering test</h1>
+  <p class="muted">Secondary paragraph text with <a href="#">an inline link</a> and <strong>bold text</strong>.</p>
+
+  <div class="card">
+    <p>Card on a white surface with a light border and a subtle shadow.</p>
+    <div class="tinted card">Nested tinted card (#f1f3f4).</div>
+    <span class="brand">Brand button</span>
+  </div>
+
+  <div class="grad">Gradient strip: white to light grey.</div>
+
+  <div class="card">
+    <table>
+      <tr><th>Header A</th><th>Header B</th></tr>
+      <tr><td>Cell one</td><td>Cell two</td></tr>
+      <tr><td>Cell three</td><td>Cell four</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <input type="text" placeholder="Text input placeholder">
+    <select><option>Option one</option><option>Option two</option></select>
+    <button>Submit</button>
+    <label><input type="checkbox" checked> Checkbox</label>
+    <br><br>
+    <textarea rows="2" cols="34">Textarea contents</textarea>
+  </div>
+
+  <div class="card">
+    <p>Inline styles:</p>
+    <div style="background:#ffffff;color:#000000;padding:10px;border:1px solid #ddd;">Plain inline white box</div>
+    <div style="background:#ffffff !important;color:#111 !important;padding:10px;margin-top:8px;">Inline box with !important</div>
+  </div>
+
+  <div class="card">
+    <p>Media (should be untouched):</p>
+    <svg width="130" height="46" style="vertical-align:middle">
+      <rect x="0" y="4" width="40" height="38" fill="#000000"/>
+      <circle cx="64" cy="23" r="19" fill="#e8710a"/>
+      <rect x="92" y="4" width="36" height="38" fill="#ffffff" stroke="#000000"/>
+    </svg>
+    <img src="photo.png" width="120" height="60" alt="photo">
+    <span style="font-size:30px">🌙 🌞 🎨</span>
+  </div>
+</body></html>

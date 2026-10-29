@@ -1,0 +1,36 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Native dark theme</title>
+<style>
+  :root { --bg: #ffffff; --fg: #1b1b1b; --card: #f6f6f6; --line: #e0e0e0; --link: #0b57d0; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #101418; --fg: #e3e3e3; --card: #1b2026; --line: #333b44; --link: #a8c7fa; }
+    .badge { background: #2d3b2d; color: #b7e4b7; border-color: #3d5540; }
+    code { background: #22282f; color: #d6e2ee; }
+    hr { border-color: #333b44; }
+    .note { color: #9aa7b4; }
+    th { background: #1b2026; }
+    button { background: #22282f; color: #e3e3e3; border-color: #3a434d; }
+  }
+  body { background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, sans-serif; margin:0; padding:24px; }
+  .card { background: var(--card); border:1px solid var(--line); border-radius:8px; padding:16px; margin:14px 0; }
+  a { color: var(--link); }
+  .badge { background:#e6f4ea; color:#137333; border:1px solid #ceead6; padding:3px 9px; border-radius:11px; font-size:13px; }
+  code { background:#f1f3f4; padding:2px 6px; border-radius:4px; }
+  .note { color:#5f6368; }
+  table { border-collapse: collapse; width:100%; } th,td { border:1px solid var(--line); padding:6px 9px; text-align:left; }
+  th { background:#f8f9fa; }
+  button { padding:7px 14px; border:1px solid var(--line); background:#f8f9fa; border-radius:4px; font:inherit; }
+</style>
+</head>
+<body>
+  <h1>Site with its own dark theme</h1>
+  <p class="note">This page ships <code>prefers-color-scheme: dark</code> rules. Nocturne should re-emit them rather than inventing its own colours.</p>
+  <div class="card">
+    <span class="badge">Native dark detected</span>
+    <p>Card text with <a href="#">a themed link</a>.</p>
+    <button>Themed button</button>
+  </div>
+  <div class="card">
+    <table><tr><th>Column</th><th>Value</th></tr><tr><td>One</td><td>Two</td></tr></table>
+  </div>
+</body></html>

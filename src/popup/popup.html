@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nocturne</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main id="app">
+    <header class="head">
+      <div class="head-text">
+        <h1>Nocturne</h1>
+        <p id="status" class="status">Loading…</p>
+      </div>
+      <label class="switch" title="Turn Nocturne on or off everywhere">
+        <input type="checkbox" id="enabled">
+        <span class="track" aria-hidden="true"></span>
+        <span class="sr">Dark mode enabled</span>
+      </label>
+    </header>
+
+    <section class="panel" id="site-panel">
+      <div class="row">
+        <div class="row-text">
+          <span class="row-label" id="site-host">this site</span>
+          <span class="row-hint" id="site-hint">Dark mode on this site</span>
+        </div>
+        <label class="switch small" title="Turn Nocturne on or off for this site">
+          <input type="checkbox" id="site-enabled">
+          <span class="track" aria-hidden="true"></span>
+          <span class="sr">Dark mode on this site</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="slider">
+        <div class="slider-head">
+          <label for="backgroundDarkness">Background darkness</label>
+          <output id="backgroundDarkness-out">50</output>
+        </div>
+        <input type="range" id="backgroundDarkness" min="0" max="100" step="1">
+        <div class="scale"><span>softer</span><span>deeper</span></div>
+      </div>
+
+      <div class="slider">
+        <div class="slider-head">
+          <label for="textContrast">Text contrast</label>
+          <output id="textContrast-out">50</output>
+        </div>
+        <input type="range" id="textContrast" min="0" max="100" step="1">
+        <div class="scale"><span>gentler</span><span>sharper</span></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="row">
+        <div class="row-text">
+          <span class="row-label">Warm text</span>
+          <span class="row-hint">Paper-toned instead of grey-white</span>
+        </div>
+        <label class="switch small">
+          <input type="checkbox" id="warmText">
+          <span class="track" aria-hidden="true"></span>
+          <span class="sr">Warm text</span>
+        </label>
+      </div>
+
+      <div class="row">
+        <div class="row-text">
+          <span class="row-label">Dim images and video</span>
+          <span class="row-hint">Takes the glare off bright photos</span>
+        </div>
+        <label class="switch small">
+          <input type="checkbox" id="dimImages">
+          <span class="track" aria-hidden="true"></span>
+          <span class="sr">Dim images and video</span>
+        </label>
+      </div>
+
+      <div class="slider nested" id="imageBrightness-wrap" hidden>
+        <div class="slider-head">
+          <label for="imageBrightness">Image brightness</label>
+          <output id="imageBrightness-out">85%</output>
+        </div>
+        <input type="range" id="imageBrightness" min="30" max="100" step="1">
+      </div>
+
+      <div class="row">
+        <div class="row-text">
+          <span class="row-label">Extra dark</span>
+          <span class="row-hint">For severe light sensitivity</span>
+        </div>
+        <label class="switch small">
+          <input type="checkbox" id="extraDark">
+          <span class="track" aria-hidden="true"></span>
+          <span class="sr">Extra dark</span>
+        </label>
+      </div>
+
+      <div class="row">
+        <div class="row-text">
+          <span class="row-label">Prefer the site's dark theme</span>
+          <span class="row-hint">Use native dark mode where it exists</span>
+        </div>
+        <label class="switch small">
+          <input type="checkbox" id="useSiteDarkTheme">
+          <span class="track" aria-hidden="true"></span>
+          <span class="sr">Prefer the site's dark theme</span>
+        </label>
+      </div>
+
+      <div class="row">
+        <div class="row-text">
+          <span class="row-label">Reduce motion and flashing</span>
+          <span class="row-hint">Stops colour transitions and animations</span>
+        </div>
+        <label class="switch small">
+          <input type="checkbox" id="suppressTransitions">
+          <span class="track" aria-hidden="true"></span>
+          <span class="sr">Reduce motion and flashing</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="panel preview-panel">
+      <span class="panel-title">Preview</span>
+      <div class="preview" id="preview">
+        <strong class="preview-head">Readable heading</strong>
+        <p class="preview-body">
+          Body text at your current contrast, with
+          <a href="#" class="preview-link" id="preview-link">a link</a>
+          and <span class="preview-muted">secondary detail</span>.
+        </p>
+        <div class="preview-controls">
+          <span class="preview-button">Button</span>
+          <span class="preview-input">Input field</span>
+        </div>
+      </div>
+    </section>
+
+    <details class="panel details" id="colors-details">
+      <summary>Colours</summary>
+      <div class="swatches" id="swatches"></div>
+      <button type="button" class="link-button" id="reset-colors">Reset colours</button>
+    </details>
+
+    <footer class="foot">
+      <button type="button" class="link-button" id="reset-all">Reset appearance</button>
+      <button type="button" class="link-button" id="open-shortcuts">Shortcuts</button>
+    </footer>
+  </main>
+
+  <script src="../core/colors.js"></script>
+  <script src="../core/settings.js"></script>
+  <script src="../core/theme.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

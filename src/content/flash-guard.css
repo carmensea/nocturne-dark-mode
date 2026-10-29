@@ -1,0 +1,22 @@
+/*
+ * Nocturne — flash guard.
+ *
+ * Injected by the browser at document_start, *before* the engine's first
+ * statement runs and before the page's own stylesheets are parsed. This is the
+ * earliest point at which an extension can influence what gets painted, so it
+ * is what stands between you and a full-screen white flash.
+ *
+ * The colour is routed through a custom property the engine owns:
+ *   - normally the engine sets it to your configured background;
+ *   - in sub-frames it sets it to `transparent`, so transparent overlay
+ *     iframes are not turned into opaque dark rectangles;
+ *   - during already-dark detection it is swapped for a sentinel colour so the
+ *     engine can tell its own background from one the site declared.
+ *
+ * The literal fallback below is the default palette value, used only in the
+ * sliver of time before the engine mounts its own stylesheet.
+ */
+html {
+  background-color: var(--ndm-root-bg, #171717) !important;
+  color-scheme: dark;
+}
