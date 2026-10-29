@@ -63,7 +63,10 @@ function scriptSpec(id, spec) {
     ...(spec.excludeMatches ? { excludeMatches: spec.excludeMatches } : {}),
     runAt: 'document_start',
     allFrames: true,
-    matchAboutBlank: true,
+    // Covers about:blank/about:srcdoc/data: frames whose initiator matches.
+    // (There is no `matchAboutBlank` here — that key exists only on the
+    // manifest's static `content_scripts`, not on this dynamic API; passing
+    // it throws and silently kills registration.)
     matchOriginAsFallback: true,
     world: 'ISOLATED',
     persistAcrossSessions: true
