@@ -37,6 +37,8 @@
   const PRES_ATTR = 'data-ndm-a';
   const PRES_ATTRS = ['fill', 'stroke', 'bgcolor', 'stop-color'];
   const ELEMENT_QUERY = '[style],[fill],[stroke],[bgcolor],[stop-color]';
+  /** Attributes sites flip on <html>/<body> to switch to their own dark theme. */
+  const THEME_ATTRS = ['data-theme', 'data-bs-theme', 'data-color-mode', 'data-color-scheme'];
 
   /* ------------------------------------------------------------------ *
    * State
@@ -500,6 +502,21 @@
     return m.bgLum < 0.2 && m.textLum !== null && m.textLum > 0.35;
   }
 
+  /**
+   * Whether the site has switched itself to its own dark theme. Such pages
+   * can still measure light — a light backdrop image behind dark panels — but
+   * remapping them inverts the site's dark surfaces back to light ones.
+   */
+  function declaresDark() {
+    for (const el of [DOC.documentElement, DOC.body]) {
+      if (!el) continue;
+      for (const attr of THEME_ATTRS) {
+        if ((el.getAttribute(attr) || '').trim().toLowerCase() === 'dark') return true;
+      }
+    }
+    return false;
+  }
+
   /* ------------------------------------------------------------------ *
    * Build
    * ------------------------------------------------------------------ */
@@ -892,17 +909,22 @@
     childList: true,
     subtree: true,
     attributes: true,
-    attributeFilter: ['style', 'fill', 'stroke', 'bgcolor', 'stop-color']
+    attributeFilter: ['style', 'fill', 'stroke', 'bgcolor', 'stop-color', ...THEME_ATTRS]
   };
 
   const observer = new MutationObserver((records) => {
     if (!active) return;
     let sheetsChanged = false;
     let ownStyleRemoved = false;
+    let themeChanged = false;
 
     for (const record of records) {
       if (record.type === 'attributes') {
-        if (record.target && record.target.nodeType === 1) queueElement(record.target);
+        if (THEME_ATTRS.includes(record.attributeName)) {
+          if (record.target === DOC.documentElement || record.target === DOC.body) themeChanged = true;
+        } else if (record.target && record.target.nodeType === 1) {
+          queueElement(record.target);
+        }
         continue;
       }
       for (const node of record.addedNodes) {
@@ -921,6 +943,7 @@
       }
     }
 
+    if (themeChanged) evaluatePage('theme');
     if (ownStyleRemoved) { applyBase(); scheduleBuild(0); }
     else if (sheetsChanged) scheduleBuild();
     else scheduleRevalidate();
@@ -939,7 +962,7 @@
     if (!active || !DOC.body) return;
 
     const site = measureSite();
-    if (looksDark(site)) {
+    if (looksDark(site) || declaresDark()) {
       if (mode !== 'passthrough') {
         mode = 'passthrough';
         passthroughBg = site.bg;
