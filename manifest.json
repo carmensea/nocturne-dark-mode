@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Nocturne — Gentle Dark Mode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Migraine-friendly dark mode for every website. Early injection to prevent white flashes, soft contrast, media preserved.",
   "minimum_chrome_version": "111",
 
