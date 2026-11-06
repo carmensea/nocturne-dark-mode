@@ -14,8 +14,8 @@ reading stylesheets from the site you are already visiting.
 
 ## Install
 
-1. Download `nocturne-1.0.1.zip` from the
-   [latest release](https://github.com/carmensea/nocturne-dark-mode/releases/latest)
+1. Download [`nocturne.zip`](https://github.com/carmensea/nocturne-dark-mode/releases/latest/download/nocturne.zip)
+   from the [latest release](https://github.com/carmensea/nocturne-dark-mode/releases/latest)
    and unzip it, or clone this repository.
 2. Open `chrome://extensions` in Chrome.
 3. Turn on **Developer mode** (top right).
