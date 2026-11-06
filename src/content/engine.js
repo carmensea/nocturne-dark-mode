@@ -132,17 +132,23 @@
    * transparent frame over an already-dark parent is dark anyway.
    */
   function rootBgCss() {
+    // Passthrough included: a dark-looking overlay iframe (Twitch extensions)
+    // must not become an opaque slab over the video.
+    if (!IS_TOP) {
+      return ':root { --ndm-root-bg: transparent; }\n' +
+             ':root:root { background-color: transparent !important; }\n';
+    }
     if (mode === 'passthrough') {
       return `:root { --ndm-root-bg: ${passthroughBg || theme.bg}; }\n`;
     }
-    const value = IS_TOP ? (rootOverride || theme.bg) : 'transparent';
+    const value = rootOverride || theme.bg;
     return `:root { --ndm-root-bg: ${value}; }\n` +
            `:root:root { background-color: var(--ndm-root-bg) !important; }\n`;
   }
 
   function applyBase() {
     if (!mountStyles()) return;
-    const body = NDM.theme.baseCss(theme, settings, { minimal: mode === 'passthrough' });
+    const body = NDM.theme.baseCss(theme, settings, { minimal: mode === 'passthrough', frame: !IS_TOP });
     setCss(els.base, rootBgCss() + body);
   }
 
@@ -526,6 +532,7 @@
   }
 
   function build() {
+    if (active && orphaned()) stepAside();
     if (!active || !mountStyles()) return;
 
     try {
@@ -576,6 +583,7 @@
   /** Cheap poll for CSSOM-only changes (styled-components and friends insert
    *  rules without touching the DOM, so no mutation record is produced). */
   function revalidate() {
+    if (active && orphaned()) stepAside();
     if (!active) return;
     if (!els.base || els.base.parentNode !== DOC.documentElement) applyBase();
     if (signatureOf(collectSheets()) !== sheetSignature) scheduleBuild(0);
@@ -780,6 +788,7 @@
   }
 
   function runElementWork() {
+    if (active && orphaned()) stepAside();
     if (!active) return;
     let budget = ELEMENT_BUDGET;
 
@@ -895,7 +904,26 @@
     attributeFilter: ['style', 'fill', 'stroke', 'bgcolor', 'stop-color']
   };
 
+  /** After an extension reload the old copy of this script lives on in its
+   *  isolated world; two engines would re-append their <style>s behind each
+   *  other forever and hang the tab. The dead copy steps aside. */
+  function orphaned() {
+    try { return !chrome.runtime.id; } catch { return true; }
+  }
+
+  function stepAside() {
+    active = false;
+    if (buildTimer) { clearTimeout(buildTimer); buildTimer = 0; }
+    if (revalidateTimer) { clearTimeout(revalidateTimer); revalidateTimer = 0; }
+    try { observer.disconnect(); } catch { /* ignore */ }
+    for (const key of ['base', 'gen', 'inline', 'probe']) {
+      const el = els[key];
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    }
+  }
+
   const observer = new MutationObserver((records) => {
+    if (active && orphaned()) stepAside();
     if (!active) return;
     let sheetsChanged = false;
     let ownStyleRemoved = false;

@@ -360,6 +360,8 @@
    * transformed) wins over them. Only the root background is forced.
    */
   function baseCss(theme, settings, options = {}) {
+    // Sub-frames get no body floor: a transparent overlay iframe (Twitch
+    // extensions, ads) must not become an opaque dark slab over the video.
     const v = `:root {
   color-scheme: dark !important;
   --ndm-bg: ${theme.bg};
@@ -378,7 +380,7 @@
 
     const core = `
 :where(html) { color: var(--ndm-text); }
-:where(body) { background-color: var(--ndm-bg); color: var(--ndm-text); }
+:where(body) { ${options.frame ? '' : 'background-color: var(--ndm-bg); '}color: var(--ndm-text); }
 
 :where(a, a:link) { color: var(--ndm-link); }
 :where(a:visited) { color: var(--ndm-link-visited); }

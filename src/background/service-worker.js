@@ -160,11 +160,13 @@ async function injectIntoTab(tabId) {
 async function injectIntoMatchingTabs(settings) {
   let tabs = [];
   try { tabs = await chrome.tabs.query({}); } catch { return; }
-  await Promise.all(tabs.map((tab) => {
-    if (!tab.id || !tab.url) return null;
-    if (!NDM.settings.isActiveFor(settings, tab.url)) return null;
-    return injectIntoTab(tab.id);
-  }));
+  // One tab at a time: injecting every frame of every tab at once on reload
+  // stalls Chrome (and the machine) when many tabs are open.
+  for (const tab of tabs) {
+    if (!tab.id || !tab.url) continue;
+    if (!NDM.settings.isActiveFor(settings, tab.url)) continue;
+    await injectIntoTab(tab.id);
+  }
 }
 
 /* -------------------------------------------------------------------- *
